@@ -83,7 +83,13 @@ LATEST_PATH = CHECKPOINT_DIR / "ug_hsi_diffusion_latest.pth"
 RESUME_CHECKPOINT: Optional[Union[str, Path]] = None
 EVAL_CHECKPOINT: Optional[Union[str, Path]] = None
 
-CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def ensure_checkpoint_dir() -> None:
+    CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+
+
+ensure_checkpoint_dir()
 
 
 # ==================================================
@@ -94,20 +100,11 @@ CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train uncertainty-guided RGB-to-HSI diffusion")
     parser.add_argument("--mode", type=str, choices=["train", "eval"], default=MODE)
-    parser.add_argument("--resume", type=str, default=None)
-    parser.add_argument("--eval_checkpoint", type=str, default=None)
-    parser.add_argument("--prior_checkpoint", type=str, default=None)
     return parser.parse_args()
 
 
 args = parse_args()
 MODE = args.mode
-if args.resume is not None:
-    RESUME_CHECKPOINT = args.resume
-if args.eval_checkpoint is not None:
-    EVAL_CHECKPOINT = args.eval_checkpoint
-if args.prior_checkpoint is not None:
-    PRIOR_CHECKPOINT = args.prior_checkpoint
 
 
 # ==================================================
@@ -354,6 +351,7 @@ def save_checkpoint(
     best_val_loss: float,
     epochs_without_improvement: int,
 ) -> None:
+    ensure_checkpoint_dir()
     payload = {
         "epoch": epoch,
         "model": model.state_dict(),
@@ -503,6 +501,7 @@ def validate(
 
 
 def train() -> None:
+    ensure_checkpoint_dir()
     set_seed(SEED)
     device = torch.device(DEVICE)
     train_loader, val_loader = make_dataloaders(device)
@@ -700,6 +699,7 @@ def train() -> None:
 
 
 def evaluate() -> None:
+    ensure_checkpoint_dir()
     set_seed(SEED)
     device = torch.device(DEVICE)
     _, val_loader = make_dataloaders(device)
