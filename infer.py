@@ -181,8 +181,10 @@ def find_paired_samples(cfg: InferenceConfig) -> List[Tuple[str, str]]:
         stem = os.path.splitext(rgb_name)[0]
         hsi_path = os.path.join(cfg.hsi_dir, stem + cfg.hsi_extension)
         if os.path.isfile(hsi_path):
+            print(1)
             pairs.append((os.path.join(cfg.rgb_dir, rgb_name), hsi_path))
         else:
+            print(2)
             skipped.append(rgb_name)
 
     if skipped:
