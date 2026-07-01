@@ -25,7 +25,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from model import ModelConfig, UncertaintyGuidedHSIDiffusion
+from models import ModelConfig, UncertaintyGuidedHSIDiffusion
 
 
 # --------------------------------------------------------------------------- #
