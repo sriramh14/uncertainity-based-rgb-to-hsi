@@ -39,7 +39,7 @@ class InferenceConfig:
     hsi_dir: str = "/kaggle/input/datasets/sriramhari14/ntire-2022/Train_spectral/Train_spectral"
     output_dir: str = "outputs"
     rgb_extensions: Tuple[str, ...] = (".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff")
-    hsi_extension: str = ".npy"  # ".npy" (array shaped H,W,C) or ".mat" (MATLAB struct)
+    hsi_extension: str = ".mat"  # ".npy" (array shaped H,W,C) or ".mat" (MATLAB struct)
     hsi_mat_key: Optional[str] = "cube"  # key inside the .mat file, only used if hsi_extension == ".mat"
 
     # Random sampling
@@ -180,7 +180,6 @@ def find_paired_samples(cfg: InferenceConfig) -> List[Tuple[str, str]]:
     for rgb_name in rgb_files:
         stem = os.path.splitext(rgb_name)[0]
         hsi_path = os.path.join(cfg.hsi_dir, stem + cfg.hsi_extension)
-        print(hsi_path)
         if os.path.isfile(hsi_path):
             pairs.append((os.path.join(cfg.rgb_dir, rgb_name), hsi_path))
         else:
