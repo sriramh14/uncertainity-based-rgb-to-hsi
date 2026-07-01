@@ -28,9 +28,9 @@ from model import ModelConfig, UncertaintyGuidedHSIDiffusion
 @dataclass
 class InferenceConfig:
     # I/O
-    input_image_path: str = "inputs/example_rgb.png"
-    output_dir: str = "outputs"
-    checkpoint_path: Optional[str] = "checkpoints/hsi_diffusion.pt"
+    input_image_path: str = "/kaggle/input/datasets/sriramhari14/ntire-2022"
+    output_dir: str = "output"
+    checkpoint_path: Optional[str] = "ug_hsi_diffusion_best.pth"
     checkpoint_key: Optional[str] = None  # e.g. "state_dict" / "model" / "ema"; None = auto-detect
 
     # Model architecture (must match the checkpoint being loaded)
